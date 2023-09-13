@@ -1,11 +1,12 @@
-import { Footer, Navbar } from "@/components";
-import "./globals.scss";
+import "./global.scss";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Wine Cellar",
-  description: "A wine cellar app built with Next.js and Supabase",
+  title: "Vinotique.",
+  description: "Vinotique is a wine shop",
 };
 
 export default function RootLayout({
@@ -16,6 +17,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <link rel="icon" href="/favicon.ico" />
+        </head>
         <body className="relative">
           <Navbar />
           {children}

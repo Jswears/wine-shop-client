@@ -1,4 +1,4 @@
-export default function AuthLayout({
+export default function WinesPageLayout({
   children,
 }: {
   children: React.ReactNode;

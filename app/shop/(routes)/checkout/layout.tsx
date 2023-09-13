@@ -1,4 +1,4 @@
-export default function ContactLayout({
+export default function WinesPageLayout({
   children,
 }: {
   children: React.ReactNode;
