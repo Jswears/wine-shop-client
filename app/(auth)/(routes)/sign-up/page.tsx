@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +17,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useContext } from "react";
+import { AuthContext } from "@/context/auth.context";
+import { AuthContextType } from "@/types";
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -35,6 +37,7 @@ const formSchema = z.object({
 });
 
 const SignupPage = () => {
+  const { isLoggedIn } = useContext(AuthContext) as AuthContextType;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -52,7 +55,7 @@ const SignupPage = () => {
       toast.error("Something went wrong");
     }
   }
-  return (
+  return !isLoggedIn ? (
     <>
       <Toaster />
       <div className="container-left w-2/4 h-full bg-black">hi</div>
@@ -124,6 +127,8 @@ const SignupPage = () => {
         </Form>
       </div>
     </>
+  ) : (
+    window.location.assign("/shop/wines")
   );
 };
 

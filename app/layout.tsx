@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { AuthContextWrapper } from "@/context/auth.context";
 
 export const metadata: Metadata = {
   title: "Vinotique.",
@@ -15,17 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <head>
-          <link rel="icon" href="/favicon.ico" />
-        </head>
+    <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <AuthContextWrapper>
         <body className="relative">
           <Navbar />
           {children}
           <Footer />
         </body>
-      </html>
-    </ClerkProvider>
+      </AuthContextWrapper>
+    </html>
   );
 }

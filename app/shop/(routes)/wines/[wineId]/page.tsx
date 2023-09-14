@@ -1,34 +1,24 @@
-"use client";
+import AddToCartButton from "@/components/AddToCartButton";
 import { WinesProps } from "@/types";
 import { formatCurrency } from "@/utils/formatCurrency";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
-export default function WineDetailsPage({
+export default async function WineDetailsPage({
   params,
 }: {
   params: { wineId: string };
 }) {
-  const [oneWine, setOneWine] = useState<WinesProps>();
-
-  const fetchOneWine = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5005/api/wines/${params.wineId}`
-      );
-      setOneWine(response.data);
-    } catch (error) {
-      toast.error("Error fetching wine");
+  const response = await fetch(
+    `http://localhost:5005/api/wines/${params.wineId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-  };
-
-  useEffect(() => {
-    fetchOneWine();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.wineId]);
+  );
+  const oneWine: WinesProps = await response.json();
 
   return !oneWine ? (
     "Loading..."
@@ -79,6 +69,7 @@ export default function WineDetailsPage({
             {formatCurrency(oneWine.price)}
           </div>
         </div>
+        <AddToCartButton wine={oneWine} />
       </div>
     </>
   );

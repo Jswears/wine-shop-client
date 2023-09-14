@@ -1,5 +1,5 @@
 "use client";
-
+import { AuthContext } from "@/context/auth.context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContextType } from "@/types";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -29,6 +31,10 @@ const formSchema = z.object({
 });
 
 const SigninPage = () => {
+  const { authenticateUser, storeToken } = useContext(
+    AuthContext
+  ) as AuthContextType;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -42,7 +48,9 @@ const SigninPage = () => {
       );
       if (response.status === 200) {
         toast.success("User logged in");
-        console.log(response);
+        storeToken(response.data.authToken);
+        authenticateUser();
+        window.location.assign("/shop/wines");
       }
     } catch (error) {
       toast.error("Something went wrong");

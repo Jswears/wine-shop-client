@@ -1,7 +1,12 @@
+"use client";
 import Link from "next/link";
 import CartButton from "./shoppingcart/CartButton";
-
+import { AuthContext } from "@/context/auth.context";
+import { AuthContextType } from "@/types";
+import { useContext } from "react";
 const Navbar = () => {
+  const { isLoggedIn } = useContext(AuthContext) as AuthContextType;
+
   return (
     <header>
       <nav className="flex justify-between items-center h-12 bg-white shadow-md fixed top-0 left-0 w-full z-50">
@@ -15,8 +20,7 @@ const Navbar = () => {
             <Link href="/contact">Contact</Link>
           </div>
           <div className="nav-users flex me-10 gap-5">
-            {/* TODO: If loggedIn, re-direct to /profile, if !loggedIn re-direct to /login */}
-            <Link href="/sign-in">
+            <Link href={isLoggedIn ? "/profile" : "/sign-in"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

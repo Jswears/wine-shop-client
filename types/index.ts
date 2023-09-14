@@ -35,3 +35,16 @@ export interface Product {
   country: string;
   quantity: number;
 }
+
+export interface AuthContextType {
+  storeToken: (token: string) => void;
+  isLoading: boolean;
+  isLoggedIn: boolean;
+  user: any; // Replace 'any' with the actual user type
+  authenticateUser: () => void;
+  logoutHandle: () => void;
+}
+
+export interface AuthContextWrapperProps {
+  children: React.ReactNode; // Use ReactNode for children prop
+}
